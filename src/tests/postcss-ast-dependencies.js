@@ -18,19 +18,17 @@ describe('postcss-ast-dependencies', () => {
         @import url('landscape.css') screen and (orientation:landscape);
       `);
 
-      return postcssAstDependencies(ast).then(identifiers => {
-        assert.deepEqual(
-          identifiers,
-          [
-            {source: 'fineprint.css'},
-            {source: 'bluish.css'},
-            {source: 'custom.css'},
-            {source: 'chrome://communicator/skin/'},
-            {source: 'common.css'},
-            {source: 'landscape.css'}
-          ]
-        );
-      });
+      assert.deepEqual(
+        postcssAstDependencies(ast)
+        [
+          {source: 'fineprint.css'},
+          {source: 'bluish.css'},
+          {source: 'custom.css'},
+          {source: 'chrome://communicator/skin/'},
+          {source: 'common.css'},
+          {source: 'landscape.css'}
+        ]
+      );
     });
     it('should not find commented out import identifiers', () => {
       // Test data sourced from https://developer.mozilla.org/en/docs/Web/CSS/@import#Examples
@@ -41,14 +39,10 @@ describe('postcss-ast-dependencies', () => {
         /*@import url("foo.css");*/
       `);
 
-      return postcssAstDependencies(ast).then(identifiers => {
-        assert.deepEqual(
-          identifiers,
-          [
-            {source: 'bar.css'}
-          ]
-        );
-      });
+      assert.deepEqual(
+        postcssAstDependencies(ast)
+        [{source: 'bar.css'}]
+      );
     });
     it('should extract multiple url identifiers', () => {
       const ast = postcss.parse(`
@@ -60,15 +54,13 @@ describe('postcss-ast-dependencies', () => {
         }
       `);
 
-      return postcssAstDependencies(ast).then(identifiers => {
-        assert.deepEqual(
-          identifiers,
-          [
-            {source: './foo.png'},
-            {source: './bar.png'}
-          ]
-        );
-      });
+      assert.deepEqual(
+        postcssAstDependencies(ast)
+        [
+          {source: './foo.png'},
+          {source: './bar.png'}
+        ]
+      );
     });
     it('should not find commented out url identifiers', () => {
       // Test data sourced from https://developer.mozilla.org/en/docs/Web/CSS/@import#Examples
@@ -84,9 +76,7 @@ describe('postcss-ast-dependencies', () => {
         */
       `);
 
-      return postcssAstDependencies(ast).then(identifiers => {
-        assert.deepEqual(identifiers, []);
-      });
+      assert.deepEqual(postcssAstDependencies(ast), []);
     });
   });
   describe('#getDependencyIdentifiersFromDeclarationValue', () => {

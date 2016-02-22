@@ -18,11 +18,7 @@ export function postcssAstDependencies(ast) {
     addDependency(identifier);
   }
 
-  try {
-    ast.walkAtRules('import', accumulateDependencyIdentifiers);
-  } catch(err) {
-    return Promise.reject(err);
-  }
+  ast.walkAtRules('import', accumulateDependencyIdentifiers);
 
   ast.walkDecls(decl => {
     const value = decl.value;
@@ -32,7 +28,7 @@ export function postcssAstDependencies(ast) {
     }
   });
 
-  return Promise.resolve(dependencies);
+  return dependencies;
 }
 
 export function getDependencyIdentifiersFromDeclarationValue(string) {
