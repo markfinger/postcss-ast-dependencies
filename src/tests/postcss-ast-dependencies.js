@@ -19,7 +19,7 @@ describe('postcss-ast-dependencies', () => {
       `);
 
       assert.deepEqual(
-        postcssAstDependencies(ast)
+        postcssAstDependencies(ast),
         [
           {source: 'fineprint.css'},
           {source: 'bluish.css'},
@@ -40,7 +40,7 @@ describe('postcss-ast-dependencies', () => {
       `);
 
       assert.deepEqual(
-        postcssAstDependencies(ast)
+        postcssAstDependencies(ast),
         [{source: 'bar.css'}]
       );
     });
@@ -55,7 +55,7 @@ describe('postcss-ast-dependencies', () => {
       `);
 
       assert.deepEqual(
-        postcssAstDependencies(ast)
+        postcssAstDependencies(ast),
         [
           {source: './foo.png'},
           {source: './bar.png'}
