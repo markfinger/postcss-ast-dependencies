@@ -1,4 +1,4 @@
-import {assert} from '../utils/assert';
+import {assert} from './assert';
 import postcss from 'postcss';
 import {
   postcssAstDependencies, getDependencyIdentifierFromImportRule, getDependencyIdentifiersFromDeclarationValue
