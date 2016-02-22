@@ -63,8 +63,6 @@ describe('postcss-ast-dependencies', () => {
       );
     });
     it('should not find commented out url identifiers', () => {
-      // Test data sourced from https://developer.mozilla.org/en/docs/Web/CSS/@import#Examples
-
       const ast = postcss.parse(`
         .foo {
           /*background-image: url('./foo.png');*/
@@ -77,6 +75,29 @@ describe('postcss-ast-dependencies', () => {
       `);
 
       assert.deepEqual(postcssAstDependencies(ast), []);
+    });
+    it('should pick up font faces declarations', () => {
+      // test data sourced from https://css-tricks.com/snippets/css/using-font-face/
+      const ast = postcss.parse(`
+        @font-face {
+          font-family: 'MyWebFont';
+          src: url('webfont.eot'); /* IE9 Compat Modes */
+          src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+             url('webfont.woff2') format('woff2'), /* Super Modern Browsers */
+             url('webfont.woff') format('woff'), /* Pretty Modern Browsers */
+             url('webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+             url('webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+        }
+      `);
+
+      assert.deepEqual(postcssAstDependencies(ast), [
+        {source: 'webfont.eot'},
+        {source: 'webfont.eot?#iefix'},
+        {source: 'webfont.woff2'},
+        {source: 'webfont.woff'},
+        {source: 'webfont.ttf'},
+        {source: 'webfont.svg#svgFontName'}
+      ]);
     });
   });
   describe('#getDependencyIdentifiersFromDeclarationValue', () => {
