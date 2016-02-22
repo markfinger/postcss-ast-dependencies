@@ -76,7 +76,7 @@ describe('postcss-ast-dependencies', () => {
 
       assert.deepEqual(postcssAstDependencies(ast), []);
     });
-    it('should pick up font faces declarations', () => {
+    it('should pick up @font-face declarations', () => {
       // test data sourced from https://css-tricks.com/snippets/css/using-font-face/
       const ast = postcss.parse(`
         @font-face {
