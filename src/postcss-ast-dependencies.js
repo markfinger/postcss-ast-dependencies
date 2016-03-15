@@ -1,7 +1,7 @@
 import {startsWith} from 'lodash/string';
 import * as cssSelectorTokenizer from 'css-selector-tokenizer';
 
-export const urlRegex = /url\(/g;
+export const urlRegex = /url\(/;
 
 export function postcssAstDependencies(ast) {
   const dependencies = [];
@@ -22,7 +22,7 @@ export function postcssAstDependencies(ast) {
 
   ast.walkDecls(decl => {
     const value = decl.value;
-    if (value.match(urlRegex)) {
+    if (urlRegex.test(value)) {
       const identifiers = getDependencyIdentifiersFromDeclarationValue(value);
       identifiers.forEach(addDependency);
     }
